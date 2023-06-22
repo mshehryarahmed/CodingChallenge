@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Group By Owners Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group p{
+            font-size: small;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Group By Owners Service</h1>
+    <div class="container">
+        <div class="form-group">
+            <label for="fileOwnersInput">Enter the File Owners:</label>
+            <p class="example">e.g., {"insurance.txt": "Company A", "letter.docx": "Company A", "Contract.docx": "Company
+                B"}</p>
+            <input type="text" id="fileOwnersInput">
+        </div>
+        <div class="button-container">
+            <button class="btn" onclick="processFileOwners()">Process</button>
+        </div>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function groupByOwnersService(fileOwners) {
+            let result = {};
+            for (let file in fileOwners) {
+                let owner = fileOwners[file];
+                if (!result.hasOwnProperty(owner)) {
+                    result[owner] = [];
+                }
+                result[owner].push(file);
+            }
+            return result;
+        }
+
+        function processFileOwners() {
+            const fileOwnersInput = document.getElementById("fileOwnersInput");
+            const outputElement = document.getElementById("output");
+            const fileOwnersString = fileOwnersInput.value;
+
+            try {
+                const fileOwners = JSON.parse(fileOwnersString);
+                const result = groupByOwnersService(fileOwners);
+                outputElement.innerHTML = JSON.stringify(result, null, 2);
+            } catch (error) {
+                outputElement.innerHTML = "<p class='error'>Invalid File Owners input. Please provide a valid JSON object.</p>";
+            }
+        }
+    </script>
+</body>
+
+</html>
